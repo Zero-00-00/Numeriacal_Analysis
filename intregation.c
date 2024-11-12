@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <math.h>
 
+double func(double x)
+{
+    return (1+2*x+3*pow(x,2));
+}
+
 double trapizoidal(double tab[][2], int n, double h)
 {
     double sum=0;
@@ -24,17 +29,12 @@ double simpsons(double tab[][2], int n, double h)
     return ((h/3)*((tab[0][1]+tab[n-1][1])+2*even+4*odd));
 }
 
-void table(double tab[][2], int n)
+void table(double tab[][2], int n, double ll, double h)
 {
-    printf("Enter the Values of Data Points\n");
     for(int i=0; i<n; i++)
     {
-        scanf("%lf", &tab[i][0]);
-    }
-    printf("Enter the Functional Values\n");
-    for(int i=0; i<n; i++)
-    {
-        scanf("%lf", &tab[i][1]);
+        tab[i][0] = ll+i*h;
+        tab[i][1] = func(tab[i][0]);
     }
 }
 
@@ -44,10 +44,13 @@ int main()
     printf("Enter the Number of data points: ");
     scanf("%d", &n);
 
-    double tab[n][2];
-    printf("Creating Table\n");
-    table(tab, n);
-    double h=fabs(tab[1][0] - tab[0][0]);
+    double tab[n][2], ll, ul;
+    printf("Enter Lower limit, Upper limit: ");
+    scanf("%lf %lf", &ll, &ul);
+    double h=fabs(ul-ll)/n;
+    printf("Creating Table...\n");
+    table(tab, n, ll, h);
+    printf("Table Created\n");
 
     int choice;
     while(1)
